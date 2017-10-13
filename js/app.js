@@ -1,4 +1,4 @@
-var app = require('http').createServer()
+var app = require('http').createServer();
 var io = require('socket.io')(app);
 var PORT = 8081;
 /*定义用户数组*/
@@ -15,41 +15,36 @@ io.on('connection', function (socket) {
 	socket.on('login',function(data){
 		for(var i=0;i<users.length;i++){
 	        if(users[i].username === data.username){
-	          	isNewPerson = false
+	          	isNewPerson = false;
 	          	break;
 	        }else{
-	          	isNewPerson = true
+	          	isNewPerson = true;
 	        }
 	    }
 	    if(isNewPerson){
-	        username = data.username
+	        username = data.username;
 	        users.push({
-	          username:data.username
+	          username:data.username;
 	        })
 	        /*登录成功*/
-	        socket.emit('loginSuccess',data)
+	        socket.emit('loginSuccess',data);
 	        /*向所有连接的客户端广播add事件*/
-	        io.sockets.emit('add',data)
+	        io.sockets.emit('add',data);
 	    }else{
 	    	/*登录失败*/
-	        socket.emit('loginFail','')
+	        socket.emit('loginFail','');
 	    }  
 	})
 
 	/*监听发送消息*/
 	socket.on('sendMessage',function(data){
-      for(var i=0;i<users.length;i++){
-        if(users[i].username === data.username){
-          io.sockets.emit('receiveMessage',data)
-          break;
-        }
-      }
+        io.sockets.emit('receiveMessage',data);
     })
 
 	/*退出登录*/
 	socket.on('disconnect',function(){
 		/*向所有连接的客户端广播leave事件*/
-      	io.sockets.emit('leave',username)
+      	io.sockets.emit('leave',username);
       	users.map(function(val,index){
         if(val.username === username){
           	users.splice(index,1);
