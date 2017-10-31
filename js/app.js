@@ -24,7 +24,7 @@ io.on('connection', function (socket) {
 	    if(isNewPerson){
 	        username = data.username;
 	        users.push({
-	          username:data.username;
+	          username:data.username
 	        })
 	        /*登录成功*/
 	        socket.emit('loginSuccess',data);
